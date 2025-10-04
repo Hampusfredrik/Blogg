@@ -14,6 +14,9 @@
     <script>
       console.log('Script loaded, CMS object:', typeof CMS);
       
+      // Set manual init to prevent loading external config
+      window.CMS_MANUAL_INIT = true;
+      
       // Wait for DOM to be ready
       document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM ready, initializing CMS...');
