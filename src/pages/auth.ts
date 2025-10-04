@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ request }) => {
   const tokenData = await tokenResponse.json();
   
   if (tokenData.error) {
-    return new Response(Error: , { status: 400 });
+    return new Response(`Error: ${tokenData.error_description}`, { status: 400 });
   }
 
   const adminUrl = new URL('/admin', request.url);
