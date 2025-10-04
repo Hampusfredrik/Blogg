@@ -4,34 +4,58 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
-    <link rel="stylesheet" href="/admin/cms.css" />
   </head>
   <body>
+    <h1>CMS Test Page</h1>
+    <p>This page should show the CMS interface below:</p>
+    <div id="cms-root"></div>
+    
     <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
     <script>
-      // Add debugging and error handling
-      console.log('Starting CMS initialization...');
+      console.log('Script loaded, CMS object:', typeof CMS);
       
-      // Listen for CMS events
-      window.addEventListener('message', function(event) {
-        console.log('Received message:', event.data);
-      });
-      
-      // Initialize CMS with error handling
-      try {
-        CMS.init();
-        console.log('CMS initialized successfully');
-      } catch (error) {
-        console.error('CMS initialization failed:', error);
-        document.body.innerHTML = '<h1>CMS Error</h1><p>Failed to initialize CMS: ' + error.message + '</p>';
-      }
-      
-      // Add a visible indicator that the page loaded
-      setTimeout(() => {
-        if (document.body.innerHTML.trim() === '') {
-          document.body.innerHTML = '<h1>Loading CMS...</h1><p>If you see this for more than 10 seconds, there may be an issue.</p>';
+      // Wait for DOM to be ready
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM ready, initializing CMS...');
+        
+        try {
+          CMS.init({
+            config: {
+              backend: {
+                name: 'github',
+                repo: 'hampusfredrik/blogg',
+                branch: 'main'
+              },
+              media_folder: "public/images/uploads",
+              public_folder: "/images/uploads",
+              site_url: "https://blogg-brown-two.vercel.app",
+              display_url: "https://blogg-brown-two.vercel.app",
+              collections: [
+                {
+                  name: "posts",
+                  label: "Posts",
+                  folder: "src/content/posts",
+                  create: true,
+                  slug: "{{slug}}",
+                  extension: "mdx",
+                  format: "frontmatter",
+                  fields: [
+                    {label: "Title", name: "title", widget: "string"},
+                    {label: "Description", name: "description", widget: "text"},
+                    {label: "Publish Date", name: "pubDate", widget: "datetime"},
+                    {label: "Author", name: "author", widget: "string"},
+                    {label: "Body", name: "body", widget: "markdown"}
+                  ]
+                }
+              ]
+            }
+          });
+          console.log('CMS initialized successfully');
+        } catch (error) {
+          console.error('CMS initialization failed:', error);
+          document.getElementById('cms-root').innerHTML = '<h2>CMS Error</h2><p>' + error.message + '</p>';
         }
-      }, 2000);
+      });
     </script>
   </body>
 </html>
