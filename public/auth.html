@@ -31,8 +31,25 @@
                 },
                 body: JSON.stringify({ code: code })
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return response.text().then(text => {
+                    console.log('Response text:', text);
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        throw new Error('Invalid JSON response: ' + text);
+                    }
+                });
+            })
             .then(data => {
+                console.log('Token data:', data);
                 if (data.token) {
                     // Post token to parent window (CMS)
                     if (window.opener) {
@@ -45,11 +62,12 @@
                         document.body.innerHTML = '<p>Authentication successful! You can close this window.</p>';
                     }
                 } else {
-                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p>';
+                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p><p>Debug: ' + JSON.stringify(data) + '</p>';
                 }
             })
             .catch(error => {
-                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p>';
+                console.error('Fetch error:', error);
+                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p><p>Check browser console for details.</p>';
             });
         })();
     </script>
