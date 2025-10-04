@@ -2,9 +2,6 @@
   name: github
   repo: hampusfredrik/blogg
   branch: main
-  base_url: https://blogg-brown-two.vercel.app
-  auth_type: implicit
-  auth_endpoint: /auth.html
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
