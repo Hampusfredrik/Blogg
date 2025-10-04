@@ -9,7 +9,39 @@
   <body>
     <script src="https://unpkg.com/decap-cms@2.10.0/dist/decap-cms.js"></script>
     <script>
-      CMS.init();
+      CMS.init({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'hampusfredrik/blogg',
+            branch: 'main',
+            base_url: 'https://blogg-brown-two.vercel.app'
+          },
+          media_folder: 'public/images/uploads',
+          public_folder: '/images/uploads',
+          site_url: 'https://blogg-brown-two.vercel.app',
+          display_url: 'https://blogg-brown-two.vercel.app',
+          collections: [
+            {
+              name: 'posts',
+              label: 'Posts',
+              folder: 'src/content/posts',
+              create: true,
+              slug: '{{slug}}',
+              extension: 'mdx',
+              fields: [
+                {label: 'Title', name: 'title', widget: 'string'},
+                {label: 'Description', name: 'description', widget: 'text'},
+                {label: 'Publish Date', name: 'pubDate', widget: 'datetime'},
+                {label: 'Author', name: 'author', widget: 'string'},
+                {label: 'Body', name: 'body', widget: 'markdown'}
+              ],
+              format: 'frontmatter',
+              frontmatter_delimiter: '---'
+            }
+          ]
+        }
+      });
     </script>
   </body>
 </html>
