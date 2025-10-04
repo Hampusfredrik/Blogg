@@ -1,1 +1,20 @@
-Haj Haj Haj
+---
+title: "Your Post Title"
+description: "A brief description of your post"
+pubDate: "2024-01-15"
+author: "Your Name"
+---
+
+# Your Post Title
+
+Write your post content here using Markdown.
+
+## Subheading
+
+You can use **bold**, *italic*, and [links](https://example.com).
+
+- Bullet points
+- Work great
+- In Markdown
+
+> Blockquotes look nice too!
