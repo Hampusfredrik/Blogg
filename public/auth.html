@@ -5,31 +5,55 @@
 </head>
 <body>
     <script>
-        // Simple OAuth callback for Netlify CMS
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
             const error = urlParams.get('error');
+            const state = urlParams.get('state');
             
             if (error) {
-                document.body.innerHTML = '<h1>Authentication Error</h1><p>' + error + '</p>';
+                document.body.innerHTML = '<h1>Authentication Error</h1><p>' + error + '</p><button onclick="window.close()">Close</button>';
                 return;
             }
             
-            if (code) {
-                // Post the code back to the parent window
-                if (window.opener) {
-                    window.opener.postMessage({
-                        type: 'oauth-callback',
-                        code: code
-                    }, '*');
-                    window.close();
-                } else {
-                    document.body.innerHTML = '<h1>Authentication Successful!</h1><p>You can close this window.</p>';
-                }
-            } else {
-                document.body.innerHTML = '<h1>No authorization code received</h1><p>Please try again.</p>';
+            if (!code) {
+                // Redirect to GitHub OAuth with your client ID
+                const clientId = 'Ov23liugSVvybSysUMbO';
+                const redirectUri = window.location.origin + '/auth.html';
+                const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodeURIComponent(state || 'cms')}`;
+                window.location.href = githubAuthUrl;
+                return;
             }
+            
+            // Exchange code for token
+            fetch('/api/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    // Post token to parent window (CMS)
+                    if (window.opener) {
+                        window.opener.postMessage({
+                            type: 'oauth-token',
+                            token: data.token,
+                            provider: 'github'
+                        }, '*');
+                        window.close();
+                    } else {
+                        document.body.innerHTML = '<h1>Authentication Successful!</h1><p>You can close this window.</p>';
+                    }
+                } else {
+                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p><button onclick="window.close()">Close</button>';
+                }
+            })
+            .catch(error => {
+                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p><button onclick="window.close()">Close</button>';
+            });
         })();
     </script>
 </body>
