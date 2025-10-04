@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.6",
+    "@astrojs/vercel": "^8.2.8",
     "@jrsinclair/rehype-sidenotes": "^0.0.5",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.13",
