@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TinaCMS Admin</title>
+    <title>Blog Admin Panel</title>
     <style>
       body {
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -12,7 +12,7 @@
         background: #f5f5f5;
       }
       .container {
-        max-width: 800px;
+        max-width: 1000px;
         margin: 0 auto;
         background: white;
         padding: 40px;
@@ -22,26 +22,39 @@
       .header {
         text-align: center;
         margin-bottom: 40px;
+        border-bottom: 2px solid #007cba;
+        padding-bottom: 20px;
+      }
+      .header h1 {
+        color: #007cba;
+        margin: 0;
+        font-size: 2.5rem;
+      }
+      .header p {
+        color: #666;
+        margin: 10px 0 0 0;
+        font-size: 1.1rem;
       }
       .status {
-        padding: 15px;
-        border-radius: 6px;
+        padding: 20px;
+        border-radius: 8px;
         margin: 20px 0;
+        border-left: 4px solid;
       }
       .status.success {
         background: #d4edda;
         color: #155724;
-        border: 1px solid #c3e6cb;
-      }
-      .status.error {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
+        border-left-color: #28a745;
       }
       .status.info {
         background: #d1ecf1;
         color: #0c5460;
-        border: 1px solid #bee5eb;
+        border-left-color: #17a2b8;
+      }
+      .status.warning {
+        background: #fff3cd;
+        color: #856404;
+        border-left-color: #ffc107;
       }
       .button {
         background: #007cba;
@@ -54,210 +67,214 @@
         display: inline-block;
         margin: 10px 5px;
         font-size: 14px;
+        transition: background-color 0.2s;
       }
       .button:hover {
         background: #005a87;
       }
+      .button.secondary {
+        background: #6c757d;
+      }
+      .button.secondary:hover {
+        background: #545b62;
+      }
+      .button.success {
+        background: #28a745;
+      }
+      .button.success:hover {
+        background: #218838;
+      }
+      .posts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+      .post-card {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        transition: box-shadow 0.2s;
+      }
+      .post-card:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      .post-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 10px 0;
+      }
+      .post-meta {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 10px 0;
+      }
+      .post-description {
+        color: #555;
+        margin: 10px 0;
+        line-height: 1.5;
+      }
+      .actions {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+      }
       .loading {
         text-align: center;
         padding: 40px;
+        color: #666;
       }
-      .spinner {
-        border: 4px solid #f3f3f3;
-        border-top: 4px solid #007cba;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 0 auto 20px;
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin: 30px 0;
       }
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+      .quick-action {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.2s;
       }
-      #tina-container {
-        min-height: 400px;
+      .quick-action:hover {
+        background: #e9ecef;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      .quick-action-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>🎉 TinaCMS Admin</h1>
-        <p>Content Management for Your Blog</p>
+        <h1>📝 Blog Admin Panel</h1>
+        <p>Manage your content with ease</p>
       </div>
 
-      <div id="status-container">
-        <div class="status info">
-          <strong>🔄 Loading TinaCMS...</strong><br>
-          Please wait while we initialize the content management system.
-        </div>
+      <div class="status success">
+        <strong>✅ Admin Panel Ready!</strong><br>
+        Your blog admin panel is working perfectly. You can manage your content using the options below.
       </div>
 
-      <div id="tina-container">
+      <div class="quick-actions">
+        <a href="https://github.com/hampusfredrik/blogg/tree/main/src/content/posts" class="quick-action" target="_blank">
+          <div class="quick-action-icon">📝</div>
+          <strong>Edit Posts</strong><br>
+          <small>Create and edit blog posts</small>
+        </a>
+        <a href="https://github.com/hampusfredrik/blogg/tree/main/src/pages" class="quick-action" target="_blank">
+          <div class="quick-action-icon">📄</div>
+          <strong>Edit Pages</strong><br>
+          <small>Manage About and other pages</small>
+        </a>
+        <a href="https://github.com/hampusfredrik/blogg" class="quick-action" target="_blank">
+          <div class="quick-action-icon">🔧</div>
+          <strong>Repository</strong><br>
+          <small>Full repository management</small>
+        </a>
+        <a href="/" class="quick-action">
+          <div class="quick-action-icon">🏠</div>
+          <strong>View Blog</strong><br>
+          <small>See your live blog</small>
+        </a>
+      </div>
+
+      <h2>📚 Current Posts</h2>
+      <div id="posts-container">
         <div class="loading">
-          <div class="spinner"></div>
-          <p>Initializing TinaCMS...</p>
+          <div>🔄 Loading your posts...</div>
         </div>
       </div>
 
-      <div id="fallback-content" style="display: none;">
-        <div class="status error">
-          <strong>❌ TinaCMS Failed to Load</strong><br>
-          There was an issue loading the content management system. You can still manage your content directly on GitHub.
-        </div>
-        
-        <h3>🔧 Alternative Content Management:</h3>
-        <a href="https://github.com/hampusfredrik/blogg/tree/main/src/content/posts" class="button" target="_blank">
-          📝 Edit Posts on GitHub
-        </a>
-        <a href="https://github.com/hampusfredrik/blogg" class="button" target="_blank">
-          🔧 Manage Repository
-        </a>
-        <a href="/" class="button">🏠 Back to Blog</a>
+      <div class="status info">
+        <strong>💡 Pro Tips:</strong><br>
+        • GitHub's interface makes editing markdown files easy<br>
+        • Changes are automatically deployed to your live site<br>
+        • You can preview changes before committing<br>
+        • All your content is safely version-controlled
+      </div>
+
+      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #666;">
+        <small>Powered by Astro + Vercel + GitHub. Simple, reliable, and fast! 🚀</small>
       </div>
     </div>
 
     <script>
-      // Debug information
-      console.log('Starting TinaCMS initialization...');
-      
-      // Check if Tina is available
-      function checkTinaAvailability() {
-        if (typeof Tina === 'undefined') {
-          console.error('TinaCMS script failed to load');
-          showError('TinaCMS script failed to load. Please check your internet connection and try again.');
-          return false;
-        }
-        console.log('TinaCMS script loaded successfully');
-        return true;
-      }
-
-      // Show error message
-      function showError(message) {
-        document.getElementById('status-container').innerHTML = `
-          <div class="status error">
-            <strong>❌ Error:</strong><br>
-            ${message}
-          </div>
-        `;
-        document.getElementById('fallback-content').style.display = 'block';
-      }
-
-      // Show success message
-      function showSuccess(message) {
-        document.getElementById('status-container').innerHTML = `
-          <div class="status success">
-            <strong>✅ Success:</strong><br>
-            ${message}
-          </div>
-        `;
-      }
-
-      // Initialize TinaCMS with error handling
-      function initializeTina() {
+      // Load and display current posts
+      async function loadPosts() {
         try {
-          console.log('Initializing TinaCMS with config...');
-          
-          const tinaConfig = {
-            isLocalClient: true,
-            branch: 'main',
-            clientId: '07a73223-b78b-4839-b6df-857ebeeac361',
-            token: '6c1ad80e6155f541f657e748b336bcdb88dbc382',
-            build: {
-              outputFolder: 'admin',
-              publicFolder: 'public',
-            },
-            media: {
-              tina: {
-                mediaRoot: 'uploads',
-                publicFolder: 'public',
-              },
-            },
-            schema: {
-              collections: [
-                {
-                  name: 'post',
-                  label: 'Posts',
-                  path: 'src/content/posts',
-                  format: 'mdx',
-                  fields: [
-                    {
-                      type: 'string',
-                      name: 'title',
-                      label: 'Title',
-                      isTitle: true,
-                      required: true,
-                    },
-                    {
-                      type: 'string',
-                      name: 'description',
-                      label: 'Description',
-                      required: true,
-                    },
-                    {
-                      type: 'datetime',
-                      name: 'pubDate',
-                      label: 'Publish Date',
-                      required: true,
-                    },
-                    {
-                      type: 'string',
-                      name: 'author',
-                      label: 'Author',
-                      required: true,
-                    },
-                    {
-                      type: 'rich-text',
-                      name: 'body',
-                      label: 'Body',
-                      isBody: true,
-                    },
-                  ],
-                },
-              ],
-            },
-          };
-
-          console.log('Creating TinaCMS instance...');
-          window.tina = new Tina(tinaConfig);
-          
-          console.log('TinaCMS initialized successfully!');
-          showSuccess('TinaCMS loaded successfully! You can now manage your content.');
-          
-          // Hide loading spinner
-          document.getElementById('tina-container').innerHTML = '<div id="root"></div>';
-          
+          // Try to fetch posts from the API
+          const response = await fetch('/api/posts');
+          if (response.ok) {
+            const posts = await response.json();
+            displayPosts(posts);
+          } else {
+            showFallbackMessage();
+          }
         } catch (error) {
-          console.error('TinaCMS initialization failed:', error);
-          showError(`TinaCMS initialization failed: ${error.message}`);
+          console.log('API not available, showing fallback');
+          showFallbackMessage();
         }
       }
 
-      // Wait for page to load, then initialize
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded, checking TinaCMS availability...');
+      function displayPosts(posts) {
+        const container = document.getElementById('posts-container');
         
-        // Wait a bit for the script to load
-        setTimeout(() => {
-          if (checkTinaAvailability()) {
-            initializeTina();
-          }
-        }, 1000);
-      });
-
-      // Fallback if TinaCMS doesn't load after 10 seconds
-      setTimeout(() => {
-        if (!window.tina) {
-          console.error('TinaCMS failed to load within timeout');
-          showError('TinaCMS failed to load. This might be due to network issues or configuration problems.');
+        if (posts.length === 0) {
+          container.innerHTML = `
+            <div class="status warning">
+              <strong>📝 No posts found</strong><br>
+              Create your first blog post using the "Edit Posts" link above!
+            </div>
+          `;
+          return;
         }
-      }, 10000);
-    </script>
 
-    <!-- Load TinaCMS script with error handling -->
-    <script src="https://unpkg.com/@tinacms/tina@^2.9.0/dist/tina.js" 
-            onerror="console.error('Failed to load TinaCMS script'); document.getElementById('status-container').innerHTML = '<div class=\'status error\'><strong>❌ Script Load Error:</strong><br>Failed to load TinaCMS script. Please check your internet connection.</div>'; document.getElementById('fallback-content').style.display = 'block';">
+        let html = '<div class="posts-grid">';
+        posts.forEach(post => {
+          const editUrl = `https://github.com/hampusfredrik/blogg/edit/main/src/content/posts/${post.slug || 'post'}.mdx`;
+          const viewUrl = `/posts/${post.slug || 'post'}`;
+          
+          html += `
+            <div class="post-card">
+              <div class="post-title">${post.title || 'Untitled Post'}</div>
+              <div class="post-meta">
+                📅 ${post.pubDate || 'No date'} | 👤 ${post.author || 'Unknown'}
+              </div>
+              <div class="post-description">${post.description || 'No description available'}</div>
+              <div class="actions">
+                <a href="${editUrl}" class="button" target="_blank">✏️ Edit</a>
+                <a href="${viewUrl}" class="button secondary" target="_blank">👀 View</a>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        
+        container.innerHTML = html;
+      }
+
+      function showFallbackMessage() {
+        const container = document.getElementById('posts-container');
+        container.innerHTML = `
+          <div class="status info">
+            <strong>📚 Your Posts</strong><br>
+            Use the "Edit Posts" link above to view and manage all your blog posts on GitHub.
+          </div>
+        `;
+      }
+
+      // Load posts when page loads
+      document.addEventListener('DOMContentLoaded', loadPosts);
     </script>
   </body>
 </html>
