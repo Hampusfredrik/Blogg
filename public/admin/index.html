@@ -4,70 +4,136 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TinaCMS Admin</title>
-    <script src="https://unpkg.com/@tinacms/tina@^2.9.0/dist/tina.js"></script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+      .setup-steps {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .setup-steps ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .setup-steps li {
+        margin: 10px 0;
+      }
+      .button {
+        background: #007cba;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin: 10px 5px;
+        font-size: 14px;
+      }
+      .button:hover {
+        background: #005a87;
+      }
+      .button.secondary {
+        background: #6c757d;
+      }
+      .button.secondary:hover {
+        background: #545b62;
+      }
+      .status {
+        padding: 15px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .status.info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .code {
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        margin: 10px 0;
+        border: 1px solid #e9ecef;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script>
-      window.tina = new Tina({
-        isLocalClient: true,
-        branch: 'main',
-        clientId: 'your-client-id', // You'll need to get this from Tina.io
-        token: 'your-token', // You'll need to get this from Tina.io
-        build: {
-          outputFolder: 'admin',
-          publicFolder: 'public',
-        },
-        media: {
-          tina: {
-            mediaRoot: 'uploads',
-            publicFolder: 'public',
-          },
-        },
-        schema: {
-          collections: [
-            {
-              name: 'post',
-              label: 'Posts',
-              path: 'src/content/posts',
-              format: 'mdx',
-              fields: [
-                {
-                  type: 'string',
-                  name: 'title',
-                  label: 'Title',
-                  isTitle: true,
-                  required: true,
-                },
-                {
-                  type: 'string',
-                  name: 'description',
-                  label: 'Description',
-                  required: true,
-                },
-                {
-                  type: 'datetime',
-                  name: 'pubDate',
-                  label: 'Publish Date',
-                  required: true,
-                },
-                {
-                  type: 'string',
-                  name: 'author',
-                  label: 'Author',
-                  required: true,
-                },
-                {
-                  type: 'rich-text',
-                  name: 'body',
-                  label: 'Body',
-                  isBody: true,
-                },
-              ],
-            },
-          ],
-        },
-      })
-    </script>
+    <div class="container">
+      <div class="header">
+        <h1>🎉 TinaCMS Setup</h1>
+        <p>Your blog is ready for TinaCMS! Follow these steps to complete the setup.</p>
+      </div>
+
+      <div class="status info">
+        <strong>📋 Next Steps Required:</strong><br>
+        To use TinaCMS, you need to create a Tina.io account and get your credentials.
+      </div>
+
+      <div class="setup-steps">
+        <h3>🚀 Setup Instructions:</h3>
+        <ol>
+          <li><strong>Create Tina.io Account:</strong> Go to <a href="https://tina.io" target="_blank">tina.io</a> and sign up</li>
+          <li><strong>Create New Project:</strong> Create a new project for your blog</li>
+          <li><strong>Get Credentials:</strong> Copy your Client ID and Token from the dashboard</li>
+          <li><strong>Update Configuration:</strong> Replace the demo credentials in the config files</li>
+          <li><strong>Set Environment Variables:</strong> Add your credentials to Vercel</li>
+        </ol>
+      </div>
+
+      <h3>📁 Files to Update:</h3>
+      <div class="code">
+        tina/config.ts<br>
+        public/admin/index.html
+      </div>
+
+      <h3>🔧 Environment Variables for Vercel:</h3>
+      <div class="code">
+        TINA_PUBLIC_CLIENT_ID=your-client-id<br>
+        TINA_TOKEN=your-token
+      </div>
+
+      <h3>⚡ Quick Actions:</h3>
+      <a href="https://tina.io" class="button" target="_blank">Create Tina.io Account</a>
+      <a href="https://github.com/hampusfredrik/blogg" class="button secondary" target="_blank">View Repository</a>
+      <a href="/" class="button secondary">Back to Blog</a>
+
+      <div class="status success">
+        <strong>✅ Current Status:</strong><br>
+        • TinaCMS dependencies installed<br>
+        • Configuration files created<br>
+        • Admin interface ready<br>
+        • Waiting for Tina.io credentials
+      </div>
+
+      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #666;">
+        <small>Once you complete the setup, you'll be able to edit your blog content directly from this interface!</small>
+      </div>
+    </div>
   </body>
 </html>
