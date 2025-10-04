@@ -57,17 +57,19 @@
                             token: data.token,
                             provider: 'github'
                         }, '*');
-                        window.close();
+                        document.body.innerHTML = '<h1>Authentication Successful!</h1><p>You can close this window.</p><button onclick="window.close()">Close Window</button>';
+                        // Auto-close after 2 seconds
+                        setTimeout(() => window.close(), 2000);
                     } else {
                         document.body.innerHTML = '<p>Authentication successful! You can close this window.</p>';
                     }
                 } else {
-                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p><p>Debug: ' + JSON.stringify(data) + '</p>';
+                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p><p>Debug: ' + JSON.stringify(data) + '</p><button onclick="window.close()">Close Window</button>';
                 }
             })
             .catch(error => {
                 console.error('Fetch error:', error);
-                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p><p>Check browser console for details.</p>';
+                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p><p>Check browser console for details.</p><button onclick="window.close()">Close Window</button>';
             });
         })();
     </script>
