@@ -1,13 +1,67 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-  <title>Redirecting...</title>
-  <meta http-equiv="refresh" content="0; url=/admin/">
+    <title>GitHub Authentication</title>
+    <script>
+        (function() {
+            // Get the authorization code from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            
+            if (error) {
+                document.body.innerHTML = '<h1>Authentication Error</h1><p>' + error + '</p>';
+                return;
+            }
+            
+            if (!code) {
+                // Get client ID from server
+                fetch('/api/client-id')
+                    .then(response => response.json())
+                    .then(data => {
+                        const clientId = data.client_id;
+                        const redirectUri = window.location.origin + '/auth.html';
+                        const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo&redirect_uri=${encodeURIComponent(redirectUri)}`;
+                        window.location.href = githubAuthUrl;
+                    })
+                    .catch(error => {
+                        document.body.innerHTML = '<h1>Error</h1><p>Failed to get client ID</p>';
+                    });
+                return;
+            }
+            
+            // Exchange code for token
+            fetch('/api/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    // Post token to parent window (CMS)
+                    if (window.opener) {
+                        window.opener.postMessage({
+                            token: data.token,
+                            provider: 'github'
+                        }, '*');
+                        window.close();
+                    } else {
+                        document.body.innerHTML = '<p>Authentication successful! You can close this window.</p>';
+                    }
+                } else {
+                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p>';
+                }
+            })
+            .catch(error => {
+                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p>';
+            });
+        })();
+    </script>
 </head>
 <body>
-  <p>Redirecting to admin...</p>
-  <script>
-    window.location.href = '/admin/';
-  </script>
+    <p>Authenticating with GitHub...</p>
 </body>
 </html>
