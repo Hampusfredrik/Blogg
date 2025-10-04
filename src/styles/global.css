@@ -2,29 +2,31 @@
 
 @plugin "@tailwindcss/typography";
 
-/* Custom color palette - Warm Neutrals with Sage Accents */
+/* Custom color palette - Vibrant Peach to Purple */
 :root {
-  --warm-cream: #faf9f7;
+  --peach-cream: #ffe5d9;
   --soft-white: #ffffff;
-  --warm-charcoal: #2d2d2d;
-  --warm-gray: #4a4a4a;
-  --sage-green: #6b7280;
-  --light-sage: #9ca3af;
-  --warm-teal: #0d9488;
-  --warm-teal-hover: #0f766e;
-  --border-warm: #e5e7eb;
+  --deep-purple: #2d1b69;
+  --warm-gray: #4a3c5a;
+  --vibrant-purple: #8a2be2;
+  --light-purple: #c9a9dd;
+  --coral-peach: #ff7f7f;
+  --coral-peach-hover: #ff6b6b;
+  --border-vibrant: #d4b5e8;
+  --gradient-start: #ffdab9;
+  --gradient-end: #8a2be2;
 }
 
 /* Custom typography styles */
 .prose {
-  color: var(--warm-charcoal);
+  color: var(--deep-purple);
   line-height: 1.625;
 }
 
 .prose h1 {
   font-size: 1.875rem;
   font-weight: 700;
-  color: var(--warm-charcoal);
+  color: var(--deep-purple);
   margin-bottom: 1.5rem;
   margin-top: 2rem;
 }
@@ -36,7 +38,7 @@
 .prose h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: var(--warm-charcoal);
+  color: var(--deep-purple);
   margin-bottom: 1rem;
   margin-top: 2rem;
 }
@@ -44,7 +46,7 @@
 .prose h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--warm-charcoal);
+  color: var(--deep-purple);
   margin-bottom: 0.75rem;
   margin-top: 1.5rem;
 }
@@ -52,7 +54,7 @@
 .prose h4 {
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--warm-charcoal);
+  color: var(--deep-purple);
   margin-bottom: 0.5rem;
   margin-top: 1rem;
 }
@@ -72,24 +74,24 @@
 }
 
 .prose blockquote {
-  border-left: 4px solid var(--light-sage);
+  border-left: 4px solid var(--light-purple);
   padding-left: 1rem;
   font-style: italic;
-  color: var(--sage-green);
+  color: var(--vibrant-purple);
   margin: 1.5rem 0;
 }
 
 .prose code {
-  background-color: var(--warm-cream);
+  background-color: var(--peach-cream);
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
-  color: var(--warm-charcoal);
+  color: var(--deep-purple);
 }
 
 .prose pre {
-  background-color: var(--warm-cream);
+  background-color: var(--peach-cream);
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
@@ -102,15 +104,15 @@
 }
 
 .prose a {
-  color: var(--warm-teal);
+  color: var(--coral-peach);
   text-decoration: underline;
-  text-decoration-color: var(--light-sage);
+  text-decoration-color: var(--light-purple);
   text-decoration-thickness: 1px;
 }
 
 .prose a:hover {
-  color: var(--warm-teal-hover);
-  text-decoration-color: var(--warm-teal-hover);
+  color: var(--coral-peach-hover);
+  text-decoration-color: var(--coral-peach-hover);
 }
 
 .prose strong {
@@ -123,59 +125,59 @@
 
 /* Footnote styles */
 .prose .footnote-ref {
-  color: var(--warm-teal);
+  color: var(--coral-peach);
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: var(--light-sage);
+  text-decoration-color: var(--light-purple);
   text-decoration-skip-ink: none;
 }
 
 .prose .footnote-ref:hover {
-  color: var(--warm-teal-hover);
-  text-decoration-color: var(--warm-teal-hover);
+  color: var(--coral-peach-hover);
+  text-decoration-color: var(--coral-peach-hover);
 }
 
 .prose .footnotes {
   display: none;
 }
 
-/* Custom utility classes for warm color palette */
-.bg-warm-cream {
-  background-color: var(--warm-cream);
+/* Custom utility classes for vibrant color palette */
+.bg-peach-cream {
+  background-color: var(--peach-cream);
 }
 
 .bg-soft-white {
   background-color: var(--soft-white);
 }
 
-.text-warm-charcoal {
-  color: var(--warm-charcoal);
+.text-deep-purple {
+  color: var(--deep-purple);
 }
 
 .text-warm-gray {
   color: var(--warm-gray);
 }
 
-.text-sage-green {
-  color: var(--sage-green);
+.text-vibrant-purple {
+  color: var(--vibrant-purple);
 }
 
-.border-warm {
-  border-color: var(--border-warm);
+.border-vibrant {
+  border-color: var(--border-vibrant);
 }
 
-.hover\:text-warm-teal:hover {
-  color: var(--warm-teal);
+.hover\:text-coral-peach:hover {
+  color: var(--coral-peach);
 }
 
-.hover\:text-warm-teal-hover:hover {
-  color: var(--warm-teal-hover);
+.hover\:text-coral-peach-hover:hover {
+  color: var(--coral-peach-hover);
 }
 
-.bg-warm-teal {
-  background-color: var(--warm-teal);
+.bg-coral-peach {
+  background-color: var(--coral-peach);
 }
 
-.hover\:bg-warm-teal-hover:hover {
-  background-color: var(--warm-teal-hover);
+.hover\:bg-coral-peach-hover:hover {
+  background-color: var(--coral-peach-hover);
 }
