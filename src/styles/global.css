@@ -2,16 +2,29 @@
 
 @plugin "@tailwindcss/typography";
 
+/* Custom color palette - Warm Neutrals with Sage Accents */
+:root {
+  --warm-cream: #faf9f7;
+  --soft-white: #ffffff;
+  --warm-charcoal: #2d2d2d;
+  --warm-gray: #4a4a4a;
+  --sage-green: #6b7280;
+  --light-sage: #9ca3af;
+  --warm-teal: #0d9488;
+  --warm-teal-hover: #0f766e;
+  --border-warm: #e5e7eb;
+}
+
 /* Custom typography styles */
 .prose {
-  color: rgb(17 24 39);
+  color: var(--warm-charcoal);
   line-height: 1.625;
 }
 
 .prose h1 {
   font-size: 1.875rem;
   font-weight: 700;
-  color: rgb(17 24 39);
+  color: var(--warm-charcoal);
   margin-bottom: 1.5rem;
   margin-top: 2rem;
 }
@@ -23,7 +36,7 @@
 .prose h2 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: rgb(17 24 39);
+  color: var(--warm-charcoal);
   margin-bottom: 1rem;
   margin-top: 2rem;
 }
@@ -31,7 +44,7 @@
 .prose h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: rgb(17 24 39);
+  color: var(--warm-charcoal);
   margin-bottom: 0.75rem;
   margin-top: 1.5rem;
 }
@@ -39,14 +52,14 @@
 .prose h4 {
   font-size: 1.125rem;
   font-weight: 600;
-  color: rgb(17 24 39);
+  color: var(--warm-charcoal);
   margin-bottom: 0.5rem;
   margin-top: 1rem;
 }
 
 .prose p {
   margin-bottom: 1rem;
-  color: rgb(55 65 81);
+  color: var(--warm-gray);
 }
 
 .prose ul, .prose ol {
@@ -59,23 +72,24 @@
 }
 
 .prose blockquote {
-  border-left: 4px solid rgb(209 213 219);
+  border-left: 4px solid var(--light-sage);
   padding-left: 1rem;
   font-style: italic;
-  color: rgb(75 85 99);
+  color: var(--sage-green);
   margin: 1.5rem 0;
 }
 
 .prose code {
-  background-color: rgb(243 244 246);
+  background-color: var(--warm-cream);
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-size: 0.875rem;
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  color: var(--warm-charcoal);
 }
 
 .prose pre {
-  background-color: rgb(243 244 246);
+  background-color: var(--warm-cream);
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
@@ -88,12 +102,15 @@
 }
 
 .prose a {
-  color: rgb(37 99 235);
+  color: var(--warm-teal);
   text-decoration: underline;
+  text-decoration-color: var(--light-sage);
+  text-decoration-thickness: 1px;
 }
 
 .prose a:hover {
-  color: rgb(29 78 216);
+  color: var(--warm-teal-hover);
+  text-decoration-color: var(--warm-teal-hover);
 }
 
 .prose strong {
@@ -106,16 +123,59 @@
 
 /* Footnote styles */
 .prose .footnote-ref {
-  color: rgb(37 99 235);
+  color: var(--warm-teal);
   text-decoration: underline;
   text-decoration-style: dotted;
+  text-decoration-color: var(--light-sage);
   text-decoration-skip-ink: none;
 }
 
 .prose .footnote-ref:hover {
-  color: rgb(29 78 216);
+  color: var(--warm-teal-hover);
+  text-decoration-color: var(--warm-teal-hover);
 }
 
 .prose .footnotes {
   display: none;
+}
+
+/* Custom utility classes for warm color palette */
+.bg-warm-cream {
+  background-color: var(--warm-cream);
+}
+
+.bg-soft-white {
+  background-color: var(--soft-white);
+}
+
+.text-warm-charcoal {
+  color: var(--warm-charcoal);
+}
+
+.text-warm-gray {
+  color: var(--warm-gray);
+}
+
+.text-sage-green {
+  color: var(--sage-green);
+}
+
+.border-warm {
+  border-color: var(--border-warm);
+}
+
+.hover\:text-warm-teal:hover {
+  color: var(--warm-teal);
+}
+
+.hover\:text-warm-teal-hover:hover {
+  color: var(--warm-teal-hover);
+}
+
+.bg-warm-teal {
+  background-color: var(--warm-teal);
+}
+
+.hover\:bg-warm-teal-hover:hover {
+  background-color: var(--warm-teal-hover);
 }

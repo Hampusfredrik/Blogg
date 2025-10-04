@@ -8,8 +8,8 @@ const posts = await getCollection('posts');
 <Layout title="My Blog - Home">
   <div class="max-w-4xl mx-auto">
     <header class="text-center mb-12">
-      <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to My Blog</h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+      <h1 class="text-5xl font-bold text-warm-charcoal mb-4">Welcome to My Blog</h1>
+      <p class="text-xl text-warm-gray max-w-2xl mx-auto">
         A simple blog built with Astro, MDX, and Tailwind CSS. 
         Featuring accessible footnote popovers and clean typography.
       </p>
@@ -17,32 +17,32 @@ const posts = await getCollection('posts');
     
     <section class="space-y-8">
       <div class="flex justify-between items-center">
-        <h2 class="text-3xl font-bold text-gray-900">Latest Articles</h2>
-        <a href="/articles" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+        <h2 class="text-3xl font-bold text-warm-charcoal">Latest Articles</h2>
+        <a href="/articles" class="hover:text-warm-teal font-medium transition-colors">
           View All Articles →
         </a>
       </div>
       
       {posts.length === 0 ? (
         <div class="text-center py-12">
-          <div class="text-gray-400 mb-4">
+          <div class="text-sage-green mb-4">
             <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h3 class="text-lg font-medium text-gray-900 mb-2">No articles yet</h3>
-          <p class="text-gray-500">Check back soon for new content!</p>
+          <h3 class="text-lg font-medium text-warm-charcoal mb-2">No articles yet</h3>
+          <p class="text-warm-gray">Check back soon for new content!</p>
         </div>
       ) : (
         posts.map((post) => (
-          <article class="border-b border-gray-200 pb-8 last:border-b-0">
-            <h3 class="text-2xl font-semibold text-gray-900 mb-2">
-              <a href={`/${post.slug}`} class="hover:text-blue-600 transition-colors">
+          <article class="border-b border-warm pb-8 last:border-b-0">
+            <h3 class="text-2xl font-semibold text-warm-charcoal mb-2">
+              <a href={`/${post.slug}`} class="hover:text-warm-teal transition-colors">
                 {post.data.title}
               </a>
             </h3>
-            <p class="text-gray-600 mb-3">{post.data.description}</p>
-            <div class="flex items-center space-x-4 text-sm text-gray-500">
+            <p class="text-warm-gray mb-3">{post.data.description}</p>
+            <div class="flex items-center space-x-4 text-sm text-sage-green">
               <span>By {post.data.author}</span>
               <span>•</span>
               <time datetime={post.data.pubDate}>
