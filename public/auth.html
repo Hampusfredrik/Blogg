@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>GitHub Authentication</title>
+</head>
+<body>
     <script>
+        // Simple OAuth callback for Netlify CMS
         (function() {
-            // Get the authorization code from URL parameters
             const urlParams = new URLSearchParams(window.location.search);
             const code = urlParams.get('code');
             const error = urlParams.get('error');
@@ -14,67 +16,21 @@
                 return;
             }
             
-            if (!code) {
-                // Redirect to GitHub OAuth with your actual client ID
-                const clientId = 'Ov23liugSVvybSysUMbO';
-                const redirectUri = window.location.origin + '/auth.html';
-                const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo&redirect_uri=${encodeURIComponent(redirectUri)}`;
-                window.location.href = githubAuthUrl;
-                return;
-            }
-            
-            // Exchange code for token
-            fetch('/api/auth', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ code: code })
-            })
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                return response.text().then(text => {
-                    console.log('Response text:', text);
-                    try {
-                        return JSON.parse(text);
-                    } catch (e) {
-                        throw new Error('Invalid JSON response: ' + text);
-                    }
-                });
-            })
-            .then(data => {
-                console.log('Token data:', data);
-                if (data.token) {
-                    // Post token to parent window (CMS)
-                    if (window.opener) {
-                        window.opener.postMessage({
-                            token: data.token,
-                            provider: 'github'
-                        }, '*');
-                        document.body.innerHTML = '<h1>Authentication Successful!</h1><p>You can close this window.</p><button onclick="window.close()">Close Window</button>';
-                        // Auto-close after 2 seconds
-                        setTimeout(() => window.close(), 2000);
-                    } else {
-                        document.body.innerHTML = '<p>Authentication successful! You can close this window.</p>';
-                    }
+            if (code) {
+                // Post the code back to the parent window
+                if (window.opener) {
+                    window.opener.postMessage({
+                        type: 'oauth-callback',
+                        code: code
+                    }, '*');
+                    window.close();
                 } else {
-                    document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + (data.error || 'Unknown error') + '</p><p>Debug: ' + JSON.stringify(data) + '</p><button onclick="window.close()">Close Window</button>';
+                    document.body.innerHTML = '<h1>Authentication Successful!</h1><p>You can close this window.</p>';
                 }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                document.body.innerHTML = '<h1>Authentication Failed</h1><p>' + error.message + '</p><p>Check browser console for details.</p><button onclick="window.close()">Close Window</button>';
-            });
+            } else {
+                document.body.innerHTML = '<h1>No authorization code received</h1><p>Please try again.</p>';
+            }
         })();
     </script>
-</head>
-<body>
-    <p>Authenticating with GitHub...</p>
 </body>
 </html>

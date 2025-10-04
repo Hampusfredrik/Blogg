@@ -9,67 +9,8 @@
   <body>
     <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
     <script>
-      // Listen for OAuth authentication messages
-      window.addEventListener('message', function(event) {
-        if (event.data && event.data.token && event.data.provider === 'github') {
-          console.log('Received token:', event.data.token);
-          
-          // Store the token for CMS
-          localStorage.setItem('netlify-cms-token', event.data.token);
-          
-          // Set the token in the CMS config
-          window.CMS_MANUAL_INIT = true;
-          
-          // Initialize CMS with the token
-          CMS.init({
-            config: {
-              backend: {
-                name: 'github',
-                repo: 'hampusfredrik/blogg',
-                branch: 'main',
-                token: event.data.token
-              },
-              media_folder: "public/images/uploads",
-              public_folder: "/images/uploads",
-              site_url: "https://blogg-brown-two.vercel.app",
-              display_url: "https://blogg-brown-two.vercel.app",
-              collections: [
-                {
-                  name: "posts",
-                  label: "Posts",
-                  folder: "src/content/posts",
-                  create: true,
-                  slug: "{{slug}}",
-                  extension: "mdx",
-                  format: "frontmatter",
-                  fields: [
-                    {label: "Title", name: "title", widget: "string"},
-                    {label: "Description", name: "description", widget: "text"},
-                    {label: "Publish Date", name: "pubDate", widget: "datetime"},
-                    {label: "Author", name: "author", widget: "string"},
-                    {label: "Body", name: "body", widget: "markdown"}
-                  ]
-                }
-              ]
-            }
-          });
-          
-          // Show success message
-          document.body.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Authentication Successful!</h2><p>You are now logged in. Redirecting to CMS...</p></div>';
-          
-          // Redirect to CMS
-          setTimeout(() => {
-            window.location.href = '/admin/#/';
-          }, 2000);
-        }
-      });
-
-      // Initialize CMS normally if no token message
-      setTimeout(() => {
-        if (!localStorage.getItem('netlify-cms-token')) {
-          CMS.init();
-        }
-      }, 1000);
+      // Simple CMS initialization
+      CMS.init();
     </script>
   </body>
 </html>
