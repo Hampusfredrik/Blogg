@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+// Get all posts from the content collection
+const posts = await getCollection('posts');
+
+// Sort posts by publication date (newest first)
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
+---
+
+<Layout title="Articles - My Blog" description="Browse all articles and blog posts">
+  <main class="min-h-screen bg-gray-50 py-12">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-lg shadow-sm p-8 md:p-12">
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold text-gray-900 mb-4">All Articles</h1>
+          <p class="text-lg text-gray-600">
+            Explore all the articles and blog posts. Currently featuring {sortedPosts.length} {sortedPosts.length === 1 ? 'article' : 'articles'}.
+          </p>
+        </div>
+
+        {sortedPosts.length === 0 ? (
+          <div class="text-center py-12">
+            <div class="text-gray-400 mb-4">
+              <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No articles yet</h3>
+            <p class="text-gray-500">Check back soon for new content!</p>
+          </div>
+        ) : (
+          <div class="space-y-8">
+            {sortedPosts.map((post) => (
+              <article class="border-b border-gray-200 pb-8 last:border-b-0">
+                <div class="flex flex-col space-y-3">
+                  <div class="flex items-center space-x-2 text-sm text-gray-500">
+                    <time datetime={post.data.pubDate}>
+                      {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </time>
+                    <span>•</span>
+                    <span>By {post.data.author}</span>
+                  </div>
+                  
+                  <h2 class="text-2xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
+                    <a href={`/${post.slug}`} class="block">
+                      {post.data.title}
+                    </a>
+                  </h2>
+                  
+                  <p class="text-gray-600 leading-relaxed">
+                    {post.data.description}
+                  </p>
+                  
+                  <div class="flex items-center">
+                    <a 
+                      href={`/${post.slug}`}
+                      class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                    >
+                      Read more
+                      <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        <div class="mt-12 pt-8 border-t border-gray-200">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">Stay Updated</h3>
+              <p class="text-gray-600">New articles are published regularly. Bookmark this page to stay up to date!</p>
+            </div>
+            <a 
+              href="/"
+              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors"
+            >
+              <svg class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
