@@ -9,8 +9,29 @@
   <body>
     <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
     <script>
-      // Simple CMS initialization for test-repo backend
-      CMS.init();
+      // Add debugging and error handling
+      console.log('Starting CMS initialization...');
+      
+      // Listen for CMS events
+      window.addEventListener('message', function(event) {
+        console.log('Received message:', event.data);
+      });
+      
+      // Initialize CMS with error handling
+      try {
+        CMS.init();
+        console.log('CMS initialized successfully');
+      } catch (error) {
+        console.error('CMS initialization failed:', error);
+        document.body.innerHTML = '<h1>CMS Error</h1><p>Failed to initialize CMS: ' + error.message + '</p>';
+      }
+      
+      // Add a visible indicator that the page loaded
+      setTimeout(() => {
+        if (document.body.innerHTML.trim() === '') {
+          document.body.innerHTML = '<h1>Loading CMS...</h1><p>If you see this for more than 10 seconds, there may be an issue.</p>';
+        }
+      }, 2000);
     </script>
   </body>
 </html>
