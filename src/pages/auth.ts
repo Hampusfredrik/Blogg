@@ -29,14 +29,20 @@ export const GET: APIRoute = async ({ request }) => {
     }
 
     // Return HTML page that posts the token to the CMS
-    const html = '<!DOCTYPE html><html><head><title>Authenticating...</title></head><body><script>window.opener.postMessage({type: "authorization", payload: {token: "' + tokenData.access_token + '", provider: "github"}}, "*"); window.close();</script></body></html>';
+    const html = '<!DOCTYPE html><html><head><title>Authenticating...</title></head><body><script>' +
+      'window.opener.postMessage({token: "' + tokenData.access_token + '", provider: "github"}, window.location.origin);' +
+      'window.close();' +
+      '</script></body></html>';
 
     return new Response(html, {
       headers: {
-        'Content-Type': 'text/html',
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Disposition': 'inline',
       },
     });
+
   } catch (error) {
-    return new Response('Error: ' + error.message, { status: 500 });
+    console.error('OAuth error:', error);
+    return new Response('OAuth authentication failed.', { status: 500 });
   }
 };
