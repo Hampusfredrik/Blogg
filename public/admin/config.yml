@@ -1,5 +1,7 @@
 ﻿backend:
-  name: test-repo
+  name: github
+  repo: hampusfredrik/blogg
+  branch: main
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
