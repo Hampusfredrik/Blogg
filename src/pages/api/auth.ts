@@ -12,6 +12,16 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
+    // Check if environment variables are set
+    if (!import.meta.env.GITHUB_CLIENT_ID || !import.meta.env.GITHUB_CLIENT_SECRET) {
+      return new Response(JSON.stringify({ 
+        error: 'GitHub OAuth credentials not configured. Please check environment variables.' 
+      }), { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     // Exchange code for token
     const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
@@ -29,8 +39,19 @@ export const POST: APIRoute = async ({ request }) => {
     const tokenData = await tokenResponse.json();
     
     if (tokenData.error) {
-      return new Response(JSON.stringify({ error: tokenData.error_description }), { 
+      return new Response(JSON.stringify({ 
+        error: `GitHub OAuth error: ${tokenData.error_description || tokenData.error}` 
+      }), { 
         status: 400,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    if (!tokenData.access_token) {
+      return new Response(JSON.stringify({ 
+        error: 'No access token received from GitHub' 
+      }), { 
+        status: 500,
         headers: { 'Content-Type': 'application/json' }
       });
     }
@@ -43,7 +64,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   } catch (error) {
     return new Response(JSON.stringify({ 
-      error: 'Authentication failed: ' + error.message 
+      error: `Authentication failed: ${error.message}` 
     }), { 
       status: 500,
       headers: { 'Content-Type': 'application/json' }
