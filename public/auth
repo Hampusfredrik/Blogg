@@ -1,0 +1,13 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirecting...</title>
+  <meta http-equiv="refresh" content="0; url=/admin/">
+</head>
+<body>
+  <p>Redirecting to admin...</p>
+  <script>
+    window.location.href = '/admin/';
+  </script>
+</body>
+</html>
