@@ -37,7 +37,7 @@ const posts = await getCollection('posts');
         posts.map((post) => (
           <article class="border-b border-vibrant pb-8 last:border-b-0">
             <h3 class="text-2xl font-semibold text-deep-purple mb-2">
-              <a href={`/${post.slug}`} class="hover:text-coral-peach transition-colors">
+              <a href={`/posts/${post.slug}`} class="hover:text-coral-peach transition-colors">
                 {post.data.title}
               </a>
             </h3>
