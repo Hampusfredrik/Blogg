@@ -12,8 +12,13 @@
       // Listen for OAuth authentication messages
       window.addEventListener('message', function(event) {
         if (event.data && event.data.token && event.data.provider === 'github') {
+          console.log('Received token:', event.data.token);
+          
           // Store the token for CMS
           localStorage.setItem('netlify-cms-token', event.data.token);
+          
+          // Set the token in the CMS config
+          window.CMS_MANUAL_INIT = true;
           
           // Initialize CMS with the token
           CMS.init({
@@ -23,7 +28,29 @@
                 repo: 'hampusfredrik/blogg',
                 branch: 'main',
                 token: event.data.token
-              }
+              },
+              media_folder: "public/images/uploads",
+              public_folder: "/images/uploads",
+              site_url: "https://blogg-brown-two.vercel.app",
+              display_url: "https://blogg-brown-two.vercel.app",
+              collections: [
+                {
+                  name: "posts",
+                  label: "Posts",
+                  folder: "src/content/posts",
+                  create: true,
+                  slug: "{{slug}}",
+                  extension: "mdx",
+                  format: "frontmatter",
+                  fields: [
+                    {label: "Title", name: "title", widget: "string"},
+                    {label: "Description", name: "description", widget: "text"},
+                    {label: "Publish Date", name: "pubDate", widget: "datetime"},
+                    {label: "Author", name: "author", widget: "string"},
+                    {label: "Body", name: "body", widget: "markdown"}
+                  ]
+                }
+              ]
             }
           });
           
