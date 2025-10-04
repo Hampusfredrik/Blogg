@@ -1,0 +1,42 @@
+backend:
+  name: test-repo
+  branch: main
+
+# Media storage configuration
+media_folder: "public/images/uploads" # Media files will be stored in the repo under public/images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+# Site URL (optional, defaults to the current site URL)
+site_url: http://localhost:4321
+
+# Display URL (optional, defaults to the current site URL)
+display_url: http://localhost:4321
+
+# Logo URL (optional)
+logo_url: http://localhost:4321/logo.png
+
+# Locale (optional, defaults to 'en')
+locale: 'en'
+
+# Editor configuration
+editor:
+  preview: false # Disable live preview for better performance
+
+# Collections configuration
+collections:
+  - name: "posts" # Used in routes, e.g., /admin/collections/posts
+    label: "Posts" # Used in the UI
+    folder: "src/content/posts" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., YYYY-MM-DD-title.md
+    extension: "mdx"
+    fields: # The fields for each document, usually in front matter
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Publish Date", name: "pubDate", widget: "datetime"}
+      - {label: "Author", name: "author", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Featured Image", name: "featuredImage", widget: "image", required: false}
+      - {label: "Tags", name: "tags", widget: "list", default: []}
+    format: "frontmatter"
+    frontmatter_delimiter: "---"

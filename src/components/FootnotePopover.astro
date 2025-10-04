@@ -1,0 +1,132 @@
+---
+// Footnote popover component for accessible footnotes
+---
+
+<div id="footnote-popover" class="fixed z-50 hidden bg-white border border-gray-300 rounded-lg shadow-lg p-4 max-w-sm">
+  <div class="flex justify-between items-start mb-2">
+    <span class="text-sm font-medium text-gray-900">Footnote</span>
+    <button 
+      id="close-footnote" 
+      class="text-gray-400 hover:text-gray-600 text-lg leading-none"
+      aria-label="Close footnote"
+    >
+      ×
+    </button>
+  </div>
+  <div id="footnote-content" class="text-sm text-gray-700"></div>
+</div>
+
+<script>
+  class FootnotePopover {
+    constructor() {
+      this.popover = document.getElementById('footnote-popover');
+      this.content = document.getElementById('footnote-content');
+      this.closeBtn = document.getElementById('close-footnote');
+      this.activeRef = null;
+      
+      this.init();
+    }
+    
+    init() {
+      // Handle footnote reference clicks
+      document.addEventListener('click', (e) => {
+        const footnoteRef = e.target.closest('a[href^="#fn"]');
+        if (footnoteRef) {
+          e.preventDefault();
+          this.showFootnote(footnoteRef);
+        }
+      });
+      
+      // Handle close button
+      this.closeBtn?.addEventListener('click', () => {
+        this.hideFootnote();
+      });
+      
+      // Handle escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.hideFootnote();
+        }
+      });
+      
+      // Handle clicks outside popover
+      document.addEventListener('click', (e) => {
+        if (!this.popover?.contains(e.target) && !e.target.closest('a[href^="#fn"]')) {
+          this.hideFootnote();
+        }
+      });
+    }
+    
+    showFootnote(footnoteRef) {
+      const href = footnoteRef.getAttribute('href');
+      const footnoteId = href?.replace('#', '');
+      const footnote = document.getElementById(footnoteId);
+      
+      if (footnote && this.content) {
+        // Get the footnote content
+        const footnoteText = footnote.textContent?.trim() || '';
+        
+        // Position the popover
+        const rect = footnoteRef.getBoundingClientRect();
+        const popover = this.popover;
+        
+        if (popover) {
+          popover.style.left = `${rect.left}px`;
+          popover.style.top = `${rect.bottom + 8}px`;
+          
+          // Adjust if popover goes off screen
+          const popoverRect = popover.getBoundingClientRect();
+          if (popoverRect.right > window.innerWidth) {
+            popover.style.left = `${window.innerWidth - popoverRect.width - 16}px`;
+          }
+          if (popoverRect.bottom > window.innerHeight) {
+            popover.style.top = `${rect.top - popoverRect.height - 8}px`;
+          }
+          
+          this.content.textContent = footnoteText;
+          popover.classList.remove('hidden');
+          
+          // Focus management for accessibility
+          this.activeRef = footnoteRef;
+          footnoteRef.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+    
+    hideFootnote() {
+      if (this.popover) {
+        this.popover.classList.add('hidden');
+      }
+      
+      if (this.activeRef) {
+        this.activeRef.setAttribute('aria-expanded', 'false');
+        this.activeRef.focus();
+        this.activeRef = null;
+      }
+    }
+  }
+  
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new FootnotePopover();
+  });
+</script>
+
+<style>
+  /* Custom styles for footnote references */
+  a[href^="#fn"] {
+    color: rgb(37 99 235);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-skip-ink: none;
+  }
+  
+  a[href^="#fn"]:hover {
+    color: rgb(29 78 216);
+  }
+  
+  /* Hide original footnotes */
+  .footnotes {
+    display: none;
+  }
+</style>

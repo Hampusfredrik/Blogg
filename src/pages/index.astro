@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('posts');
+---
+
+<Layout title="My Blog - Home">
+  <div class="max-w-4xl mx-auto">
+    <header class="text-center mb-12">
+      <h1 class="text-5xl font-bold text-gray-900 mb-4">Welcome to My Blog</h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        A simple blog built with Astro, MDX, and Tailwind CSS. 
+        Featuring accessible footnote popovers and clean typography.
+      </p>
+    </header>
+    
+    <section class="space-y-8">
+      <h2 class="text-3xl font-bold text-gray-900 mb-6">Latest Articles</h2>
+      
+      {posts.map((post) => (
+        <article class="border-b border-gray-200 pb-8 last:border-b-0">
+          <h3 class="text-2xl font-semibold text-gray-900 mb-2">
+            <a href={`/sample-article`} class="hover:text-blue-600 transition-colors">
+              {post.data.title}
+            </a>
+          </h3>
+          <p class="text-gray-600 mb-3">{post.data.description}</p>
+          <div class="flex items-center space-x-4 text-sm text-gray-500">
+            <span>By {post.data.author}</span>
+            <span>•</span>
+            <time datetime={post.data.pubDate}>
+              {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+          </div>
+        </article>
+      ))}
+    </section>
+  </div>
+</Layout>

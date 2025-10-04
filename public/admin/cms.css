@@ -1,0 +1,213 @@
+/* Custom styles for Decap CMS */
+
+/* Brand colors */
+:root {
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --secondary-color: #6b7280;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --background-color: #ffffff;
+  --surface-color: #f9fafb;
+  --border-color: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+}
+
+/* Header styling */
+.cms-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+  border-bottom: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cms-header h1 {
+  color: white;
+  font-weight: 600;
+}
+
+/* Navigation styling */
+.cms-nav {
+  background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cms-nav a {
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.cms-nav a:hover,
+.cms-nav a.active {
+  color: var(--primary-color);
+  background-color: transparent;
+}
+
+/* Button styling */
+.cms-button {
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.cms-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cms-button-secondary {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.cms-button-secondary:hover {
+  background-color: var(--border-color);
+}
+
+/* Form styling */
+.cms-form {
+  background-color: var(--background-color);
+}
+
+.cms-form-field {
+  margin-bottom: 24px;
+}
+
+.cms-form-label {
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.cms-form-input,
+.cms-form-textarea,
+.cms-form-select {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cms-form-input:focus,
+.cms-form-textarea:focus,
+.cms-form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+/* Card styling */
+.cms-card {
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.cms-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* List styling */
+.cms-list-item {
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.cms-list-item:hover {
+  background-color: var(--surface-color);
+}
+
+.cms-list-item:last-child {
+  border-bottom: none;
+}
+
+/* Status indicators */
+.cms-status-draft {
+  background-color: var(--warning-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cms-status-published {
+  background-color: var(--success-color);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Loading states */
+.cms-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+.cms-loading::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-top: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .cms-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .cms-form-input,
+  .cms-form-textarea,
+  .cms-form-select {
+    padding: 10px;
+  }
+  
+  .cms-button {
+    padding: 10px 16px;
+    width: 100%;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1f2937;
+    --surface-color: #374151;
+    --border-color: #4b5563;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+  }
+  
+  .cms-form-input,
+  .cms-form-textarea,
+  .cms-form-select {
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+  }
+}
