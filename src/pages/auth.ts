@@ -25,29 +25,11 @@ export const GET: APIRoute = async ({ request }) => {
     const tokenData = await tokenResponse.json();
     
     if (tokenData.error) {
-      return new Response(Error: , { status: 400 });
+      return new Response('Error: ' + tokenData.error_description, { status: 400 });
     }
 
     // Return HTML page that posts the token to the CMS
-    const html = \<!DOCTYPE html>
-<html>
-<head>
-  <title>Authenticating...</title>
-</head>
-<body>
-  <script>
-    // Post the token to the CMS
-    window.opener.postMessage({
-      type: 'authorization',
-      payload: {
-        token: '\',
-        provider: 'github'
-      }
-    }, '*');
-    window.close();
-  </script>
-</body>
-</html>\;
+    const html = '<!DOCTYPE html><html><head><title>Authenticating...</title></head><body><script>window.opener.postMessage({type: "authorization", payload: {token: "' + tokenData.access_token + '", provider: "github"}}, "*"); window.close();</script></body></html>';
 
     return new Response(html, {
       headers: {
@@ -55,6 +37,6 @@ export const GET: APIRoute = async ({ request }) => {
       },
     });
   } catch (error) {
-    return new Response(\Error: \\, { status: 500 });
+    return new Response('Error: ' + error.message, { status: 500 });
   }
 };
