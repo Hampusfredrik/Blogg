@@ -6,16 +6,9 @@
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
-media_library:
-  name: uploadcare
 
 site_url: https://blogg-brown-two.vercel.app
 display_url: https://blogg-brown-two.vercel.app
-
-locale: "en"
-
-editor:
-  preview: false
 
 collections:
   - name: "posts"
@@ -30,7 +23,5 @@ collections:
       - {label: "Publish Date", name: "pubDate", widget: "datetime"}
       - {label: "Author", name: "author", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Featured Image", name: "featuredImage", widget: "image", required: false}
-      - {label: "Tags", name: "tags", widget: "list", default: []}
     format: "frontmatter"
     frontmatter_delimiter: "---"
