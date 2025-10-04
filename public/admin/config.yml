@@ -1,9 +1,5 @@
 ﻿backend:
-  name: github
-  repo: hampusfredrik/blogg
-  branch: main
-  auth_type: implicit
-  auth_endpoint: https://blogg-brown-two.vercel.app/auth.html
+  name: test-repo
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
