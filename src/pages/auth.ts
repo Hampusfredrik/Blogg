@@ -28,21 +28,12 @@ export const GET: APIRoute = async ({ request }) => {
       return new Response('Error: ' + tokenData.error_description, { status: 400 });
     }
 
-    // Return HTML page that posts the token to the CMS
-    const html = '<!DOCTYPE html><html><head><title>Authenticating...</title></head><body><script>' +
-      'window.opener.postMessage({token: "' + tokenData.access_token + '", provider: "github"}, window.location.origin);' +
-      'window.close();' +
-      '</script></body></html>';
-
-    return new Response(html, {
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Content-Disposition': 'inline',
-      },
-    });
-
+    // Simple redirect to admin with token
+    const adminUrl = new URL('/admin', request.url);
+    adminUrl.searchParams.set('token', tokenData.access_token);
+    
+    return Response.redirect(adminUrl.toString());
   } catch (error) {
-    console.error('OAuth error:', error);
     return new Response('OAuth authentication failed.', { status: 500 });
   }
 };
