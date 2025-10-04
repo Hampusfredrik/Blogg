@@ -3,62 +3,136 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
+    <title>Blog Admin</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      .header {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .button {
+        background: #007cba;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin: 10px 0;
+      }
+      .button:hover {
+        background: #005a87;
+      }
+      .status {
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+      }
+      .status.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .status.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+    </style>
   </head>
   <body>
-    <h1>CMS Test Page</h1>
-    <p>This page should show the CMS interface below:</p>
-    <div id="cms-root"></div>
+    <div class="header">
+      <h1>Blog Admin Panel</h1>
+      <p>Manage your blog content</p>
+    </div>
     
-    <script src="https://unpkg.com/netlify-cms@2.10.192/dist/netlify-cms.js"></script>
+    <div class="content">
+      <h2>Quick Actions</h2>
+      <a href="https://github.com/hampusfredrik/blogg/tree/main/src/content/posts" class="button" target="_blank">
+        📝 Edit Posts on GitHub
+      </a>
+      <a href="https://github.com/hampusfredrik/blogg/tree/main/src/pages" class="button" target="_blank">
+        📄 Edit Pages on GitHub
+      </a>
+      <a href="https://github.com/hampusfredrik/blogg" class="button" target="_blank">
+        🔧 Manage Repository
+      </a>
+      
+      <h2>Current Posts</h2>
+      <div id="posts-list">
+        <p>Loading posts...</p>
+      </div>
+      
+      <div id="status"></div>
+    </div>
+
     <script>
-      console.log('Script loaded, CMS object:', typeof CMS);
-      
-      // Set manual init to prevent loading external config
-      window.CMS_MANUAL_INIT = true;
-      
-      // Wait for DOM to be ready
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM ready, initializing CMS...');
-        
+      // Load current posts
+      async function loadPosts() {
         try {
-          CMS.init({
-            config: {
-              backend: {
-                name: 'github',
-                repo: 'hampusfredrik/blogg',
-                branch: 'main'
-              },
-              media_folder: "public/images/uploads",
-              public_folder: "/images/uploads",
-              site_url: "https://blogg-brown-two.vercel.app",
-              display_url: "https://blogg-brown-two.vercel.app",
-              collections: [
-                {
-                  name: "posts",
-                  label: "Posts",
-                  folder: "src/content/posts",
-                  create: true,
-                  slug: "{{slug}}",
-                  extension: "mdx",
-                  format: "frontmatter",
-                  fields: [
-                    {label: "Title", name: "title", widget: "string"},
-                    {label: "Description", name: "description", widget: "text"},
-                    {label: "Publish Date", name: "pubDate", widget: "datetime"},
-                    {label: "Author", name: "author", widget: "string"},
-                    {label: "Body", name: "body", widget: "markdown"}
-                  ]
-                }
-              ]
-            }
-          });
-          console.log('CMS initialized successfully');
+          const response = await fetch('/api/posts');
+          if (response.ok) {
+            const posts = await response.json();
+            displayPosts(posts);
+          } else {
+            document.getElementById('posts-list').innerHTML = '<p>Unable to load posts. You can still edit them directly on GitHub.</p>';
+          }
         } catch (error) {
-          console.error('CMS initialization failed:', error);
-          document.getElementById('cms-root').innerHTML = '<h2>CMS Error</h2><p>' + error.message + '</p>';
+          document.getElementById('posts-list').innerHTML = '<p>Unable to load posts. You can still edit them directly on GitHub.</p>';
         }
-      });
+      }
+
+      function displayPosts(posts) {
+        const postsList = document.getElementById('posts-list');
+        if (posts.length === 0) {
+          postsList.innerHTML = '<p>No posts found. Create your first post on GitHub!</p>';
+          return;
+        }
+
+        let html = '<ul>';
+        posts.forEach(post => {
+          html += `
+            <li style="margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 4px;">
+              <strong>${post.title || 'Untitled'}</strong><br>
+              <small>${post.description || 'No description'}</small><br>
+              <small>Published: ${post.pubDate || 'Not set'}</small><br>
+              <a href="https://github.com/hampusfredrik/blogg/edit/main/src/content/posts/${post.slug || 'post'}.mdx" target="_blank" class="button" style="font-size: 12px; padding: 5px 10px; margin-top: 5px;">
+                Edit on GitHub
+              </a>
+            </li>
+          `;
+        });
+        html += '</ul>';
+        postsList.innerHTML = html;
+      }
+
+      // Show status message
+      function showStatus(message, type = 'success') {
+        const status = document.getElementById('status');
+        status.innerHTML = `<div class="status ${type}">${message}</div>`;
+        setTimeout(() => status.innerHTML = '', 5000);
+      }
+
+      // Load posts when page loads
+      document.addEventListener('DOMContentLoaded', loadPosts);
+      
+      showStatus('Admin panel loaded! Use the GitHub links above to edit your content.', 'success');
     </script>
   </body>
 </html>
