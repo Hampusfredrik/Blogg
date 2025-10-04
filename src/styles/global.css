@@ -181,3 +181,25 @@
 .hover\:bg-coral-peach-hover:hover {
   background-color: var(--coral-peach-hover);
 }
+
+/* Gradient text utilities */
+.text-gradient-purple-coral {
+  background: linear-gradient(135deg, var(--vibrant-purple) 0%, var(--coral-peach) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-coral-purple {
+  background: linear-gradient(135deg, var(--coral-peach) 0%, var(--vibrant-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-full {
+  background: linear-gradient(135deg, var(--vibrant-purple) 0%, var(--light-purple) 50%, var(--coral-peach) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
