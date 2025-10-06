@@ -1,0 +1,65 @@
+---
+export interface Props {
+  value: any[];
+}
+
+const { value } = Astro.props;
+
+function renderBlock(block: any): string {
+  if (block._type === 'block') {
+    let html = '';
+    
+    // Handle text content
+    if (block.children) {
+      html = block.children.map((child: any) => {
+        let text = child.text;
+        
+        // Apply marks (bold, italic, etc.)
+        if (child.marks) {
+          child.marks.forEach((mark: string) => {
+            if (mark === 'strong') {
+              text = `<strong>${text}</strong>`;
+            } else if (mark === 'em') {
+              text = `<em>${text}</em>`;
+            }
+          });
+        }
+        
+        return text;
+      }).join('');
+    }
+    
+    // Apply block styles
+    if (block.style === 'h1') {
+      return `<h1>${html}</h1>`;
+    } else if (block.style === 'h2') {
+      return `<h2>${html}</h2>`;
+    } else if (block.style === 'h3') {
+      return `<h3>${html}</h3>`;
+    } else if (block.style === 'h4') {
+      return `<h4>${html}</h4>`;
+    } else if (block.style === 'blockquote') {
+      return `<blockquote>${html}</blockquote>`;
+    } else {
+      return `<p>${html}</p>`;
+    }
+  }
+  
+  return '';
+}
+
+function renderContent(content: any[]): string {
+  if (!content || !Array.isArray(content)) {
+    return '';
+  }
+  
+  return content.map(block => renderBlock(block)).join('');
+}
+
+const htmlContent = renderContent(value);
+---
+
+{htmlContent && (
+  <div set:html={htmlContent} />
+)}
+
