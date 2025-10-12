@@ -5,19 +5,22 @@ import { client, postsQuery } from '../lib/sanity.js';
 const posts = await client.fetch(postsQuery);
 ---
 
-<Layout title="My Blog - Home">
+<Layout title="Botbussen - Home">
   <div class="max-w-4xl mx-auto">
     <header class="text-center mb-12">
-      <h1 class="text-5xl font-bold text-gradient-full mb-4">Welcome to My Blog</h1>
+      <div class="flex justify-center mb-6">
+        <img src="/botbussen-logo.svg" alt="Botbussen Logo" class="h-16 w-auto" />
+      </div>
+      <h1 class="text-5xl font-bold text-gradient-full mb-4">Welcome to Botbussen</h1>
       <p class="text-xl text-warm-gray max-w-2xl mx-auto">
-        A simple blog built with Astro, MDX, and Tailwind CSS. 
-        Featuring accessible footnote popovers and clean typography.
+        A platform dedicated to improving clinical skills and providing inspiration 
+        about musculoskeletal health, pain management, and clinical reasoning.
       </p>
     </header>
     
     <section class="space-y-8">
       <div class="flex justify-between items-center">
-        <h2 class="text-3xl font-bold text-deep-purple">Latest Articles</h2>
+        <h2 class="text-3xl font-bold text-deep-purple">Latest Clinical Articles</h2>
         <a href="/articles" class="hover:text-coral-peach font-medium transition-colors">
           View All Articles →
         </a>
@@ -30,8 +33,8 @@ const posts = await client.fetch(postsQuery);
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h3 class="text-lg font-medium text-deep-purple mb-2">No articles yet</h3>
-          <p class="text-warm-gray">Check back soon for new content!</p>
+          <h3 class="text-lg font-medium text-deep-purple mb-2">No clinical articles yet</h3>
+          <p class="text-warm-gray">Check back soon for new clinical content and insights!</p>
         </div>
       ) : (
         posts.map((post) => (

@@ -6,13 +6,13 @@ import { client, postsQuery } from '../lib/sanity.js';
 const posts = await client.fetch(postsQuery);
 ---
 
-<Layout title="Articles - My Blog" description="Browse all articles and blog posts">
+<Layout title="Articles - Botbussen" description="Browse all clinical articles about musculoskeletal health, pain, and clinical reasoning">
   <main class="min-h-screen bg-peach-cream py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gradient-full mb-4">All Articles</h1>
+        <h1 class="text-3xl font-bold text-gradient-full mb-4">Clinical Articles</h1>
         <p class="text-lg text-warm-gray">
-          Explore all the articles and blog posts. Currently featuring {posts.length} {posts.length === 1 ? 'article' : 'articles'}.
+          Explore articles about musculoskeletal health, pain management, and clinical reasoning. Currently featuring {posts.length} {posts.length === 1 ? 'article' : 'articles'}.
         </p>
       </div>
 
@@ -23,8 +23,8 @@ const posts = await client.fetch(postsQuery);
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h3 class="text-lg font-medium text-deep-purple mb-2">No articles yet</h3>
-            <p class="text-warm-gray">Check back soon for new content!</p>
+            <h3 class="text-lg font-medium text-deep-purple mb-2">No clinical articles yet</h3>
+            <p class="text-warm-gray">Check back soon for new clinical content and insights!</p>
           </div>
         ) : (
           <div class="space-y-8">
@@ -74,7 +74,7 @@ const posts = await client.fetch(postsQuery);
           <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
             <div>
               <h3 class="text-lg font-semibold text-deep-purple">Stay Updated</h3>
-              <p class="text-warm-gray">New articles are published regularly. Bookmark this page to stay up to date!</p>
+              <p class="text-warm-gray">New clinical articles about musculoskeletal health and pain management are published regularly. Bookmark this page to stay up to date!</p>
             </div>
             <a 
               href="/"
